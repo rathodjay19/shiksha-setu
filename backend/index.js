@@ -7,7 +7,7 @@ const port = process.env.PORT;
 console.log(port);
 
 app.get("/", (req, res) => {
-	console.log("sf");
+	res.json({ msg: "backend get request" });
 });
 
 app.listen(port, () => {
