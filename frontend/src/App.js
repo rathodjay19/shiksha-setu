@@ -1,7 +1,7 @@
 import "./App.css";
 import axios from "axios";
 import config from "./config";
-
+import Courses from "./components/Courses"
 function App() {
 	const handleClick = async () => {
 		try {
@@ -21,7 +21,9 @@ function App() {
 
 	return (
 		<div className="App">
-			<button onClick={handleClick}>click</button>
+      <button onClick={handleClick}>click</button>
+      
+       <Courses/>
 		</div>
 	);
 }
