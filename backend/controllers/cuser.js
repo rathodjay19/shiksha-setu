@@ -4,8 +4,6 @@ const bcrypt = require("bcryptjs");
 const postsignin = async (req, res) => {
 	const { email, password } = req.body;
 
-	return res.status(202).json(req.body);
-
 	const user = await usermodel.findOne({ email: email });
 
 	if (!user) {
@@ -20,8 +18,6 @@ const postsignin = async (req, res) => {
 };
 
 const postsignup = async (req, res) => {
-	return res.status(202).json(req.body);
-
 	const {
 		name,
 		email,
@@ -61,4 +57,15 @@ const postsignup = async (req, res) => {
 	// return res.render("home.ejs");
 };
 
-module.exports = { postsignin, postsignup };
+const getprofile = async (req, res) => {
+	const token = "parthivva227@gmail.com";
+
+	const user = await usermodel.findOne({ email: token });
+	console.log(user);
+
+	if (!user) {
+		return res.status(404).json({ error: "user not found" });
+	}
+	return res.status(202).json(user);
+};
+module.exports = { postsignin, postsignup, getprofile };

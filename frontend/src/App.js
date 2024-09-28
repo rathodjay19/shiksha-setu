@@ -1,41 +1,42 @@
 import "./App.css";
 import axios from "axios";
 import config from "./config";
-import Courses from "./components/Courses";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Profile from "./pages/profile";
+import Courses from "./components/Courses";
+import Navbar from "./components/Navbar";
+import CourseInside from "./components/CourseInside";
+import About from "./pages/About";
+import Lab from "./components/Lab";
 
 function App() {
-	//   const handleClick = async () => {
-	//     try {
-	//       const headers = {
-	//         "Content-Type": "applsication/json",
-	//         authorization: `Bearer ${window.localStorage.getItem("token")}`,
-	//       };
-	//       const results = await axios.post(config.BACKEND_API + "/temp", {data:"value"},{
-	//         headers,
-	//       });
-
-	//       console.log(results.data);
-	//     } catch (err) {
-	//       console.log("error ->", err);
-	//     }
-	//   };
+	const location = useLocation(); // Get the current URL path
 
 	return (
-		<Routes>
-			<Route>
+		<>
+			{/* Conditionally render Navbar based on the current route */}
+			{location.pathname !== "/login" && location.pathname !== "/register" && (
+				<Navbar />
+			)}
+
+			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="/login" exact element={<Login />} />
 				<Route path="/register" exact element={<Register />} />
-			</Route>
-		</Routes>
-		// <div className="App">
-		//   <button onClick={handleClick}>click</button>
-		//   <Courses />
-		// </div>
+				<Route path="/profile" exact element={<Profile />} />
+				<Route path="/courses" exact element={<Courses />} />
+				<Route path="/courses/course-inside" exact element={<CourseInside />} />
+				<Route
+					path="/courses/course-inside/lab/:labId"
+					exact
+					element={<Lab />}
+				/>
+				<Route path="/about-us" exact element={<About />} />
+			</Routes>
+		</>
 	);
 }
 

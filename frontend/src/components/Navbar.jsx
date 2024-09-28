@@ -1,384 +1,232 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-// import '../CSS/Navbar.css';
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import MenuIcon from "@mui/icons-material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import { Button } from "@mui/material";
-import { useAuth } from "../context/auth";
-import { useNavigate } from "react-router-dom";
-import LocalMallIcon from "@mui/icons-material/LocalMall";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import { toast } from "react-hot-toast";
-import Badge from "@mui/material/Badge";
-import { useProduct } from "../context/product";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import AdbIcon from "@mui/icons-material/Adb";
+import { Link } from "react-router-dom";
+import { styled } from "@mui/material/styles"; // Import styled
+
+// Styled MenuItem for custom styles
+const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
+	"&:hover": {
+		backgroundColor: "#e0e0e0", // Light gray background on hover
+		transition: "background-color 0.3s ease", // Transition effect
+	},
+}));
 
 function Navbar() {
-	const [anchorEl, setAnchorEl] = React.useState(null);
-	const { isLoggedIn, setIsLoggedIn, LogOut } = useAuth();
-	const navigate = useNavigate();
-	const { cartList, wishList, numberOfOrders } = useProduct();
+	const [anchorElNav, setAnchorElNav] = React.useState(null);
+	const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-	const handleMenu = (event) => {
-		setAnchorEl(event.currentTarget);
+	const handleOpenNavMenu = (event) => {
+		setAnchorElNav(event.currentTarget);
+	};
+	const handleOpenUserMenu = (event) => {
+		setAnchorElUser(event.currentTarget);
 	};
 
-	const handleClose = () => {
-		setAnchorEl(null);
+	const handleCloseNavMenu = () => {
+		setAnchorElNav(null);
 	};
 
-	const navbarStyle = {
-		position: "sticky",
-		top: "0%",
-		zIndex: 100,
-		backdropFilter: "blur(10px)",
-		margin: 0,
-		overflowY: "hidden",
-		zIndex: 4,
+	const handleCloseUserMenu = () => {
+		setAnchorElUser(null);
 	};
-
-	useEffect(() => {
-		console.log("cartList", cartList.length);
-	}, []);
 
 	return (
-		<nav className="navbar navbar-expand-lg p-2" style={navbarStyle}>
-			<div className="container-fluid">
-				<Link
-					className="navbar-brand"
-					to="/"
-					style={{
-						fontWeight: "bold",
-						fontSize: "xx-large",
-						fontFamily: "Quicksand",
-					}}
-				>
-					<LocalMallIcon /> eBay
-				</Link>
-				<button
-					className="navbar-toggler"
-					type="button"
-					data-bs-toggle="collapse"
-					data-bs-target="#navbarSupportedContent"
-					aria-controls="navbarSupportedContent"
-					aria-expanded="false"
-					aria-label="Toggle navigation"
-				>
-					<MenuIcon />
-				</button>
-				<div className="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-						<Button
-							disableRipple
-							variant="text"
-							style={{ transition: "all 0.5s ease" }}
-							sx={{
-								"&:hover": {
-									borderBottom: "1px solid #03045e",
-									borderRadius: "5px",
-								},
-							}}
+		<AppBar
+			position="static"
+			sx={{ backgroundColor: "#333", transition: "background-color 0.5s ease" }}
+		>
+			<Container maxWidth="xl">
+				<Toolbar disableGutters>
+					<AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+					<Typography
+						variant="h6"
+						noWrap
+						component="a"
+						href="#"
+						sx={{
+							mr: 2,
+							display: { xs: "none", md: "flex" },
+							fontFamily: "monospace",
+							fontWeight: 700,
+							letterSpacing: ".3rem",
+							color: "white", // Changed color to white
+							textDecoration: "none",
+						}}
+					>
+						LOGO
+					</Typography>
+
+					<Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+						<IconButton
+							size="large"
+							aria-label="account of current user"
+							aria-controls="menu-appbar"
+							aria-haspopup="true"
+							onClick={handleOpenNavMenu}
+							color="inherit"
 						>
-							<Link
-								className="nav-link active"
-								to="/"
-								style={{
-									fontFamily: "Quicksand",
-									transition: "all 0.5s ease",
-									fontWeight: "bold",
-								}}
-							>
-								Home
-							</Link>
-						</Button>
-						<Button
-							disableRipple
-							variant="text"
-							style={{ transition: "all 0.5s ease" }}
-							sx={{
-								"&:hover": {
-									borderBottom: "1px solid #03045e",
-									borderRadius: "5px",
-								},
+							<MenuIcon />
+						</IconButton>
+						<Menu
+							id="menu-appbar"
+							anchorEl={anchorElNav}
+							anchorOrigin={{
+								vertical: "bottom",
+								horizontal: "left",
 							}}
-						>
-							<Link
-								className="nav-link active"
-								to="/dashboard"
-								style={{
-									fontFamily: "Quicksand",
-									transition: "all 0.5s ease",
-									fontWeight: "bold",
-								}}
-							>
-								Dashboard
-							</Link>
-						</Button>
-						<Button
-							disableRipple
-							variant="text"
-							style={{ transition: "all 0.5s ease" }}
-							sx={{
-								"&:hover": {
-									borderBottom: "1px solid #03045e",
-									borderRadius: "5px",
-								},
+							keepMounted
+							transformOrigin={{
+								vertical: "top",
+								horizontal: "left",
 							}}
+							open={Boolean(anchorElNav)}
+							onClose={handleCloseNavMenu}
+							sx={{ display: { xs: "block", md: "none" } }}
 						>
-							<Link
-								className="nav-link active"
-								to="/list-product"
-								style={{
-									fontFamily: "Quicksand",
-									transition: "all 0.5s ease",
-									fontWeight: "bold",
-								}}
-							>
-								List Product
-							</Link>
-						</Button>
-						<Button
-							disableRipple
-							variant="text"
-							style={{ transition: "all 0.5s ease" }}
-							sx={{
-								"&:hover": {
-									borderBottom: "1px solid #03045e",
-									borderRadius: "5px",
-								},
-							}}
-						>
-							<Link
-								className="nav-link active"
-								to="/order"
-								style={{
-									fontFamily: "Quicksand",
-									transition: "all 0.5s ease",
-									fontWeight: "bold",
-								}}
-							>
-								<Badge
-									color="secondary"
-									badgeContent={numberOfOrders}
-									max={999}
+							<StyledMenuItem onClick={handleCloseNavMenu}>
+								<Link to="/" style={{ textDecoration: "none", color: "black" }}>
+									{" "}
+									{/* Link color */}
+									<Typography sx={{ textAlign: "center" }}>{"Home"}</Typography>
+								</Link>
+							</StyledMenuItem>
+
+							<StyledMenuItem onClick={handleCloseNavMenu}>
+								<Link
+									to="/courses"
+									style={{ textDecoration: "none", color: "black" }}
 								>
-									Order
-								</Badge>
+									{" "}
+									{/* Link color */}
+									<Typography sx={{ textAlign: "center" }}>
+										{"Courses"}
+									</Typography>
+								</Link>
+							</StyledMenuItem>
+
+							<StyledMenuItem onClick={handleCloseNavMenu}>
+								<Link
+									to="/about-us"
+									style={{ textDecoration: "none", color: "black" }}
+								>
+									{" "}
+									{/* Link color */}
+									<Typography sx={{ textAlign: "center" }}>
+										{"About Us"}
+									</Typography>
+								</Link>
+							</StyledMenuItem>
+						</Menu>
+					</Box>
+
+					<AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+					<Typography
+						variant="h5"
+						noWrap
+						component="a"
+						href="#"
+						sx={{
+							mr: 2,
+							display: { xs: "flex", md: "none" },
+							flexGrow: 1,
+							fontFamily: "monospace",
+							fontWeight: 700,
+							letterSpacing: ".3rem",
+							color: "white", // Changed color to white
+							textDecoration: "none",
+						}}
+					>
+						LOGO
+					</Typography>
+					<Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+						<StyledMenuItem onClick={handleCloseNavMenu}>
+							<Link to="/" style={{ textDecoration: "none", color: "white" }}>
+								{" "}
+								{/* Link color */}
+								<Typography sx={{ textAlign: "center" }}>{"Home"}</Typography>
 							</Link>
-						</Button>
-						<Button
-							disableRipple
-							variant="text"
-							style={{ transition: "all 0.5s ease" }}
-							sx={{
-								"&:hover": {
-									borderBottom: "1px solid #03045e",
-									borderRadius: "5px",
-								},
-							}}
-						>
+						</StyledMenuItem>
+
+						<StyledMenuItem onClick={handleCloseNavMenu}>
 							<Link
-								className="nav-link active"
-								to="/wish-list"
-								style={{
-									fontFamily: "Quicksand",
-									transition: "all 0.5s ease",
-									fontWeight: "bold",
-								}}
+								to="/courses"
+								style={{ textDecoration: "none", color: "white" }}
 							>
-								<Badge
-									color="secondary"
-									badgeContent={wishList.length}
-									max={999}
-								>
-									WishList
-								</Badge>
+								{" "}
+								{/* Link color */}
+								<Typography sx={{ textAlign: "center" }}>
+									{"Courses"}
+								</Typography>
 							</Link>
-						</Button>
-						<Button
-							disableRipple
-							variant="text"
-							style={{ transition: "all 0.5s ease" }}
-							sx={{
-								"&:hover": {
-									borderBottom: "1px solid #03045e",
-									borderRadius: "5px",
-								},
-							}}
-						>
+						</StyledMenuItem>
+
+						<StyledMenuItem onClick={handleCloseNavMenu}>
 							<Link
-								className="nav-link active"
-								to="/category"
-								style={{
-									fontFamily: "Quicksand",
-									transition: "all 0.5s ease",
-									fontWeight: "bold",
-								}}
+								to="/about-us"
+								style={{ textDecoration: "none", color: "white" }}
 							>
-								Category
+								{" "}
+								{/* Link color */}
+								<Typography sx={{ textAlign: "center" }}>
+									{"About Us"}
+								</Typography>
 							</Link>
-						</Button>
-						<Button
-							disableRipple
-							variant="text"
-							style={{ transition: "all 0.5s ease" }}
-							sx={{
-								"&:hover": {
-									borderBottom: "1px solid #03045e",
-									borderRadius: "5px",
-								},
+						</StyledMenuItem>
+					</Box>
+
+					<Box sx={{ flexGrow: 0 }}>
+						<Tooltip title="Open settings">
+							<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+								<Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+							</IconButton>
+						</Tooltip>
+						<Menu
+							sx={{ mt: "45px" }}
+							id="menu-appbar"
+							anchorEl={anchorElUser}
+							anchorOrigin={{
+								vertical: "top",
+								horizontal: "right",
 							}}
-						>
-							<Link
-								className="nav-link active"
-								to="/database"
-								style={{ fontFamily: "Quicksand", fontWeight: "bold" }}
-							>
-								Database
-							</Link>
-						</Button>
-						<Button
-							disableRipple
-							variant="text"
-							style={{ transition: "all 0.5s ease" }}
-							sx={{
-								"&:hover": {
-									borderBottom: "1px solid #03045e",
-									borderRadius: "5px",
-								},
+							keepMounted
+							transformOrigin={{
+								vertical: "top",
+								horizontal: "right",
 							}}
+							open={Boolean(anchorElUser)}
+							onClose={handleCloseUserMenu}
 						>
-							<Link
-								className="nav-link active"
-								to="/aboutus"
-								style={{ fontFamily: "Quicksand", fontWeight: "bold" }}
-							>
-								AboutUS
-							</Link>
-						</Button>
-						<Button
-							disableRipple
-							variant="text"
-							style={{ transition: "all 0.5s ease" }}
-							sx={{
-								"&:hover": {
-									borderBottom: "1px solid #03045e",
-									borderRadius: "5px",
-								},
-							}}
-						>
-							<Link
-								className="nav-link active"
-								to="/cart"
-								style={{ fontFamily: "Quicksand" }}
-							>
-								<Badge
-									color="secondary"
-									badgeContent={cartList.length}
-									max={999}
-								>
-									<ShoppingCartOutlinedIcon />
-								</Badge>
-							</Link>
-						</Button>
-						{isLoggedIn ? (
-							<>
-								<IconButton
-									size="large"
-									aria-label="account of current user"
-									aria-controls="menu-appbar"
-									aria-haspopup="true"
-									onClick={handleMenu}
-									color="inherit"
-								>
-									<AccountCircleOutlinedIcon
-										fontSize="large"
-										style={{ fontFamily: "Quicksand" }}
-									/>
-								</IconButton>
-								<Menu
-									style={{ fontFamily: "Quicksand" }}
-									id="menu-appbar"
-									anchorEl={anchorEl}
-									anchorOrigin={{
-										vertical: "top",
-										horizontal: "right",
-									}}
-									keepMounted
-									transformOrigin={{
-										vertical: "top",
-										horizontal: "right",
-									}}
-									open={Boolean(anchorEl)}
-									onClose={handleClose}
-								>
-									<MenuItem
-										onClick={handleClose}
-										style={{ fontFamily: "Quicksand", fontWeight: "bold" }}
-									>
-										<Link className="nav-link" to="/dashboard">
-											Profile
-										</Link>
-									</MenuItem>
-									<MenuItem
-										style={{ fontFamily: "Quicksand", fontWeight: "bold" }}
-										onClick={() => {
-											handleClose();
-											LogOut();
-										}}
-									>
-										Logout
-									</MenuItem>
-								</Menu>
-							</>
-						) : (
-							<>
-								<Button
-									disableRipple
-									variant="outlined"
-									style={{ transition: "all 0.5s ease" }}
-									sx={{
-										"&:hover": {
-											borderBottom: "1px solid #03045e",
-											borderRadius: "5px",
-										},
-									}}
-								>
-									<Link
-										className="nav-link"
-										to="/login"
-										style={{ fontFamily: "Quicksand" }}
-									>
-										LogIn
-									</Link>
-								</Button>
-								<Button
-									disableRipple
-									variant="outlined"
-									style={{ transition: "all 0.5s ease" }}
-									sx={{
-										"&:hover": {
-											borderBottom: "1px solid #03045e",
-											borderRadius: "5px",
-										},
-									}}
-								>
-									<Link
-										className="nav-link"
-										to="/register"
-										style={{ fontFamily: "Quicksand" }}
-									>
-										SignUP
-									</Link>
-								</Button>
-							</>
-						)}
-					</ul>
-				</div>
-			</div>
-		</nav>
+							<MenuItem onClick={handleCloseUserMenu}>
+								<Link to="/profile">
+									<Typography sx={{ textAlign: "center" }}>
+										{"profile"}
+									</Typography>
+								</Link>
+							</MenuItem>
+
+							<MenuItem onClick={handleCloseUserMenu}>
+								<Link to="/log-out">
+									<Typography sx={{ textAlign: "center" }}>
+										{"Log out"}
+									</Typography>
+								</Link>
+							</MenuItem>
+						</Menu>
+					</Box>
+				</Toolbar>
+			</Container>
+		</AppBar>
 	);
 }
 
