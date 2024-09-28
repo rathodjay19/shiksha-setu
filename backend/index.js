@@ -5,8 +5,11 @@ const { userroute } = require("./routes/ruser");
 const { courseroute } = require("./routes/rcourse");
 const { resourceroute } = require("./routes/rresource");
 const { attendanceroute } = require("./routes/rattendance");
+const { announcementroute } = require("./routes/rannouncement");
+const { labroute } = require("./routes/rlab");
 
 const { connectToMongoDB } = require("./connect");
+const Announcement = require("./models/mannouncements");
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 8000;
@@ -27,6 +30,8 @@ app.use("/user", userroute);
 app.use("/course", courseroute);
 app.use("/resource", resourceroute);
 app.use("/attendance", attendanceroute);
+app.use("/announcement", announcementroute);
+app.use("/lab", labroute);
 
 app.listen(port, () => {
 	console.log("server started");

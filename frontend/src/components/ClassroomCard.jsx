@@ -99,7 +99,12 @@ const useStyles = makeStyles({
 	},
 });
 
-const ClassroomCard = ({ courseName, instructor, avatarLetter }) => {
+const ClassroomCard = ({
+	courseName,
+	instructor,
+	avatarLetter,
+	coursecode,
+}) => {
 	const classes = useStyles();
 	const navigate = useNavigate();
 
@@ -116,11 +121,13 @@ const ClassroomCard = ({ courseName, instructor, avatarLetter }) => {
 			}}
 		>
 			{/* Header Section with course name */}
+
 			<Box
 				className={classes.header}
 				onClick={() => {
-					navigate("/courses/course-inside");
+					navigate("/courses/course-inside/" + coursecode);
 				}}
+				sx={{ cursor: "pointer" }}
 			>
 				<Typography
 					variant="h6"

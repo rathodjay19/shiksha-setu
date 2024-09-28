@@ -60,7 +60,6 @@ const getcourse = async (req, res) => {
 		// Filter out any null values in case of errors
 		const filteredCourses = allcourse.filter((course) => course !== null);
 
-		console.log("filteredCourses", filteredCourses);
 		// Return the list of all course details
 		return res.status(202).json(filteredCourses);
 	} catch (err) {

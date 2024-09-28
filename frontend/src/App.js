@@ -10,7 +10,6 @@ import Courses from "./components/Courses";
 import Navbar from "./components/Navbar";
 import CourseInside from "./components/CourseInside";
 import About from "./pages/About";
-import Lab from "./components/Lab";
 
 function App() {
 	const location = useLocation(); // Get the current URL path
@@ -28,12 +27,8 @@ function App() {
 				<Route path="/register" exact element={<Register />} />
 				<Route path="/profile" exact element={<Profile />} />
 				<Route path="/courses" exact element={<Courses />} />
-				<Route path="/courses/course-inside" exact element={<CourseInside />} />
-				<Route
-					path="/courses/course-inside/lab/:labId"
-					exact
-					element={<Lab />}
-				/>
+				<Route path="/courses/course-inside/:coursecode" exact element={<CourseInside />} />
+				
 				<Route path="/about-us" exact element={<About />} />
 			</Routes>
 		</>
