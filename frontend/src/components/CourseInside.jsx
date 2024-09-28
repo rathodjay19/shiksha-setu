@@ -63,15 +63,23 @@ const CourseInside = () => {
 	const [selectedFile, setSelectedFile] = useState(null);
 
 	const handleFileChange = (event) => {
-		setSelectedFile(event.target.files[0]);
+		setSelectedFile((prev) => event.target.files[0]);
 	};
 
 	// Function to handle form submission (currently a placeholder)
-	const handleSubmit = () => {
-		if (selectedFile) {
-			console.log("File to be submitted:", selectedFile);
-		} else {
-			console.log("No file selected");
+	const handleSubmit = async (id) => {
+		const formData = new FormData();
+		formData.append("file", selectedFile);
+		formData.append("lab_id", id);
+		formData.append("studentemail", "parthivva227@gmail.com");
+
+		try {
+			const res = await axios.post(config.BACKEND_API + "/upload", formData, {
+				headers: { "Content-Type": "multipart/form-data" },
+			});
+			console.log("File uploaded: ", res.data.msg);
+		} catch (error) {
+			console.error("Error uploading file:", error);
 		}
 	};
 
@@ -175,51 +183,103 @@ const CourseInside = () => {
 										</Button>
 									</Box>
 								</div>
-								<Box sx={{ width: "25%" }}>
-									<StyledCard>
-										<Typography variant="h6">Your Work</Typography>
-										<Divider sx={{ mt: 1, mb: 2 }} />
-
-										{/* File Upload */}
-										<input
-											style={{ display: "none" }}
-											id="upload-file"
-											type="file"
-											onChange={handleFileChange}
-										/>
-										<label htmlFor="upload-file">
-											<Button
-												variant="outlined"
-												component="span"
-												fullWidth
-												sx={{ mb: 2 }}
+								{lab.submissions.map((submission, index) => {
+									if (submission.studentemail === "parthivva227@gmail.com") {
+										// Student has submitted their work, display "Submitted" button
+										return (
+											<Box
+												sx={{
+													width: "25%",
+												}}
+												key={index}
 											>
-												+ Add or Create
-											</Button>
-										</label>
+												<StyledCard>
+													<Typography variant="h6">Your Work</Typography>
+													<Divider sx={{ mt: 1, mb: 2 }} />
 
-										{/* Display selected file name */}
-										{selectedFile && (
-											<Typography
-												variant="body2"
-												color="textSecondary"
-												sx={{ mb: 2 }}
-											>
-												Selected file: {selectedFile.name}
-											</Typography>
-										)}
-
-										{/* Submit Assignment */}
-										<Button
-											variant="contained"
-											color="primary"
-											fullWidth
-											onClick={handleSubmit} // Simulate form submission
+													{/* Display Submitted Button */}
+													<Button
+														sx={{
+															my: 2,
+														}}
+														style={{
+															display: "flex",
+															justifyContent: "center",
+															backgroundColor: "#f0f0f0",
+															padding: "10px",
+															borderRadius: "5px",
+															width: "100%",
+															height: "100%",
+														}}
+														onClick={() => {
+															const url = submission.submissionFileUrl;
+															window.open(url, "_blank", "noopener,noreferrer");
+														}}
+													>
+														OPEN FILE
+													</Button>
+													<Button variant="contained" color="primary" fullWidth>
+														Submitted
+													</Button>
+												</StyledCard>
+											</Box>
+										);
+									}
+									// If there are no submissions for this student, render the upload option
+									return (
+										<Box
+											sx={{
+												width: "25%",
+												filter: "blue(10px)",
+											}}
+											key={`upload-${index}`} // Ensure unique key for the upload section
 										>
-											Mark as Done
-										</Button>
-									</StyledCard>
-								</Box>
+											<StyledCard>
+												<Typography variant="h6">Your Work</Typography>
+												<Divider sx={{ mt: 1, mb: 2 }} />
+
+												{/* File Upload */}
+												<input
+													style={{ display: "none" }}
+													id="upload-file"
+													type="file"
+													onChange={handleFileChange}
+												/>
+												<label htmlFor="upload-file">
+													<Button
+														variant="outlined"
+														component="span"
+														fullWidth
+														sx={{ mb: 2 }}
+													>
+														+ Add or Create
+													</Button>
+												</label>
+
+												{/* Display selected file name */}
+												{selectedFile && (
+													<Typography
+														variant="body2"
+														color="textSecondary"
+														sx={{ mb: 2 }}
+													>
+														Selected file: {selectedFile.name}
+													</Typography>
+												)}
+
+												{/* Submit Assignment */}
+												<Button
+													variant="contained"
+													color="primary"
+													fullWidth
+													onClick={() => handleSubmit(lab._id)} // Simulate form submission
+												>
+													Mark as Done
+												</Button>
+											</StyledCard>
+										</Box>
+									);
+								})}
 							</CardContent>
 						</Card>
 					))}
