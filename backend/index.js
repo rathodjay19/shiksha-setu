@@ -14,14 +14,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 connectToMongoDB(process.env.MONGO_URL);
-// app.use(
-// 	cors({
-// 		origin: process.env.FRONTEND_URL || "http://localhost:3000",
-// 		methods: ["GET", "POST", "PUT", "DELETE"],
-// 		allowedHeaders: ["Content-Type", "authorization"],
-// 		credentials: true,
-// 	})
-// );
+app.use(
+	cors({
+		origin: process.env.FRONTEND_URL || "http://localhost:3000",
+		methods: ["GET", "POST", "PUT", "DELETE"],
+		allowedHeaders: ["Content-Type", "authorization"],
+		credentials: true,
+	})
+);
 
 app.use("/user", userroute);
 app.use("/course", courseroute);

@@ -1,8 +1,11 @@
-const {usermodel} = require("../models/muser");
+const { usermodel } = require("../models/muser");
 const bcrypt = require("bcryptjs");
 
 const postsignin = async (req, res) => {
 	const { email, password } = req.body;
+
+	return res.status(202).json(req.body);
+
 	const user = await usermodel.findOne({ email: email });
 
 	if (!user) {
@@ -17,6 +20,8 @@ const postsignin = async (req, res) => {
 };
 
 const postsignup = async (req, res) => {
+	return res.status(202).json(req.body);
+
 	const {
 		name,
 		email,
