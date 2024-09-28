@@ -13,7 +13,9 @@ const addattendance = async (req, res) => {
 		return res
 			.status(202)
 			.json({ msg: "you have successfully added attendance" });
-	} catch (err) {
+	} catch (error) {
+		console.log(error);
+
 		return res.status(404).json({
 			err: "error in attendance.js   /controllers   addattendance",
 		});

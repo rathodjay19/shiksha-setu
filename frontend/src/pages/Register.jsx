@@ -99,7 +99,7 @@ export default function Login() {
 				}
 			);
 
-			console.log(results.data);
+			// console.log(results.data);
 			toast.success("SignUp successful!");
 			navigate("/");
 		} catch (err) {

@@ -22,7 +22,7 @@ export const ProfileProvider = ({ children }) => {
 			const results = await axios.get(config.BACKEND_API + "/user/profile", {
 				headers,
 			});
-			console.log(results);
+			// console.log(results);
 
 			setName((prev) => results.data.name);
 			setEmail((prev) => results.data.email);

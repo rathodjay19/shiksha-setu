@@ -8,12 +8,7 @@ const token = "your_token_here";
 export const CoursesProvider = ({ children }) => {
 	axios.defaults.withCredentials = true;
 
-	const [coursename, setcoursename] = useState("");
-	const [profileimageURL, setprofileimageURL] = useState("");
-	const [coursecode, setcoursecode] = useState("");
-	const [instructor, setinstructor] = useState("");
-	const [Semester, setSemester] = useState("");
-	const [totalclass, settotalclass] = useState("");
+	const [courses, setCourses] = useState([]);
 
 	const getcourses = async () => {
 		try {
@@ -28,14 +23,9 @@ export const CoursesProvider = ({ children }) => {
 					headers,
 				}
 			);
-			console.log(results);
+			// console.log(results.data);
 
-			setcoursename((prev) => results.data.coursename);
-			setprofileimageURL((prev) => results.data.profileimageURL);
-			setcoursecode((prev) => results.data.coursecode);
-			setinstructor((prev) => results.data.instructor);
-			setSemester((prev) => results.data.Semester);
-			settotalclass((prev) => results.data.totalclass);
+			setCourses((prev) => results.data);
 		} catch (err) {
 			console.log("error ->", err);
 		}
@@ -49,12 +39,8 @@ export const CoursesProvider = ({ children }) => {
 	return (
 		<coursesContext.Provider
 			value={{
-				coursename,
-				profileimageURL,
-				coursecode,
-				instructor,
-				Semester,
-				totalclass,
+				courses,
+				setCourses,
 			}}
 		>
 			{children}

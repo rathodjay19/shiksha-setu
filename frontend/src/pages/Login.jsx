@@ -144,7 +144,7 @@ export default function Login() {
 			//Data is the response from the server
 			//Data is the response from the server
 
-			console.log(results.data);
+			// console.log(results.data);
 			toast.success("Login successful!");
 			navigate("/");
 		} catch (err) {

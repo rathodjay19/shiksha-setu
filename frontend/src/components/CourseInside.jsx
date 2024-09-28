@@ -41,7 +41,7 @@ const CourseInside = () => {
 
 	// Function to navigate to the Lab component when a lab card is clicked
 	const handleLabClick = (labId) => {
-		navigate(`/course-inside/lab/${labId}`);
+		navigate(`/courses/course-inside/lab/${labId}`);
 	};
 
 	return (

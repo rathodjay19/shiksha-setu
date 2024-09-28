@@ -61,7 +61,6 @@ const getprofile = async (req, res) => {
 	const token = "parthivva227@gmail.com";
 
 	const user = await usermodel.findOne({ email: token });
-	console.log(user);
 
 	if (!user) {
 		return res.status(404).json({ error: "user not found" });
